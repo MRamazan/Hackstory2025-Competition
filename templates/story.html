@@ -1,0 +1,922 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<style>
+/* Ana container */
+.story-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    position: relative;
+}
+
+/* Kitap wrapper */
+.book-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 110%;
+    align-items: center;
+
+    max-width: 1400px;
+    transform: scale(1.2);
+}
+
+/* Kitap resmi */
+.book-image {
+    max-width: 100%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+
+
+/* Mürekkep overlay */
+.ink-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 21%;
+    padding-top: 9%;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInOverlay 1s ease-in-out 2s forwards;
+}
+
+/* Mürekkep metinleri */
+.ink-text {
+    font-size: 1em;
+    font-weight: bold;
+    color: #000000;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    text-align: left;
+    line-height: 1.1;
+    margin: 7px 0;
+}
+
+.ink-text.title {
+    margin-bottom: 20px;
+}
+
+.ink-text.subtitle {
+    font-style: italic;
+}
+
+/* Mürekkep yazma animasyonu */
+.ink-writing {
+    font-family: 'Caveat', cursive;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid #2c1810;
+    width: 0;
+}
+
+/* İlk satır animasyonu */
+.ink-writing {
+    animation: 
+        typewriter 1.4s steps(40) 0.5s forwards,
+        blink 0.8s infinite 0.5s,
+        removeCursor 0.1s 1.9s forwards;
+}
+
+.ink-writing.line1 {
+    animation: 
+        typewriter 2.2s steps(45) 0.5s forwards,
+        blink 0.8s infinite 0.5s,
+        removeCursor 0.1s 2.7s forwards;
+}
+
+.ink-writing.line2 {
+    animation: 
+        typewriter 2.4s steps(45) 2.9s forwards,
+        blink 0.8s infinite 2.9s,
+        removeCursor 0.1s 5.3s forwards;
+}
+
+.ink-writing.line3 {
+    animation: 
+        typewriter 2.1s steps(40) 5.5s forwards,
+        blink 0.8s infinite 5.5s,
+        removeCursor 0.1s 7.6s forwards;
+}
+
+.ink-writing.line4 {
+    animation: 
+        typewriter 2.4s steps(45) 7.8s forwards,
+        blink 0.8s infinite 7.8s,
+        removeCursor 0.1s 10.2s forwards;
+}
+
+.ink-writing.line5 {
+    animation: 
+        typewriter 2.5s steps(48) 10.4s forwards,
+        blink 0.8s infinite 10.4s,
+        removeCursor 0.1s 12.9s forwards;
+}
+
+.ink-writing.line6 {
+    animation: 
+        typewriter 2.2s steps(42) 13.1s forwards,
+        blink 0.8s infinite 13.1s,
+        removeCursor 0.1s 15.3s forwards;
+}
+
+.ink-writing.line7 {
+    animation: 
+        typewriter 1.5s steps(25) 15.5s forwards,
+        blink 0.8s infinite 15.5s,
+        removeCursor 0.1s 17.0s forwards;
+}
+
+.ink-writing.line8 {
+    animation: 
+        typewriter 2.0s steps(38) 17.2s forwards,
+        blink 0.8s infinite 17.2s,
+        removeCursor 0.1s 19.2s forwards;
+}
+
+.ink-writing.line9 {
+    animation: 
+        typewriter 2.3s steps(45) 19.4s forwards,
+        blink 0.8s infinite 19.4s,
+        removeCursor 0.1s 21.7s forwards;
+}
+
+.ink-writing.line10 {
+    animation: 
+        typewriter 2.1s steps(42) 21.9s forwards,
+        blink 0.8s infinite 21.9s,
+        removeCursor 0.1s 24.0s forwards;
+}
+
+.ink-writing.line11 {
+    animation: 
+        typewriter 2.3s steps(45) 24.2s forwards,
+        blink 0.8s infinite 24.2s,
+        removeCursor 0.1s 26.5s forwards;
+}
+
+.ink-writing.line12 {
+    animation: 
+        typewriter 2.5s steps(48) 26.7s forwards,
+        blink 0.8s infinite 26.7s,
+        removeCursor 0.1s 29.2s forwards;
+}
+
+.ink-writing.line13 {
+    animation: 
+        typewriter 2.2s steps(42) 29.4s forwards,
+        blink 0.8s infinite 29.4s,
+        removeCursor 0.1s 31.6s forwards;
+}
+
+.ink-writing.line14 {
+    animation: 
+        typewriter 2.4s steps(45) 31.8s forwards,
+        blink 0.8s infinite 31.8s,
+        removeCursor 0.1s 34.2s forwards;
+}
+
+.ink-writing.line15 {
+    animation: 
+        typewriter 1.9s steps(32) 34.4s forwards,
+        blink 0.8s infinite 34.4s,
+        removeCursor 0.1s 36.3s forwards;
+}
+
+.ink-writing.line16 {
+    animation: 
+        typewriter 2.1s steps(42) 36.5s forwards,
+        blink 0.8s infinite 36.5s,
+        removeCursor 0.1s 38.6s forwards;
+}
+
+.ink-writing.line17 {
+    animation: 
+        typewriter 2.0s steps(38) 38.8s forwards,
+        blink 0.8s infinite 38.8s,
+        removeCursor 0.1s 40.8s forwards;
+}
+
+.ink-writing.line18 {
+    animation: 
+        typewriter 1.9s steps(35) 41.0s forwards,
+        blink 0.8s infinite 41.0s,
+        removeCursor 0.1s 42.9s forwards;
+}
+
+/* Animasyon keyframe'leri */
+@keyframes typewriter {
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+@keyframes removeCursor {
+    to { border-right: none; }
+}
+
+@keyframes fadeInOverlay {
+    to { opacity: 1; }
+}
+
+/* Mürekkep damlama efekti */
+.ink-drop {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #2c1810;
+    border-radius: 50%;
+    opacity: 0;
+    animation: inkDrop 0.8s ease-in-out infinite;
+}
+
+.ink-drop:nth-child(1) {
+    top: 20%;
+    left: 20%;
+    animation-delay: 1s;
+}
+
+.ink-drop:nth-child(2) {
+    top: 40%;
+    left: 35%;
+    animation-delay: 2.5s;
+}
+
+.ink-drop:nth-child(3) {
+    bottom: 30%;
+    left: 25%;
+    animation-delay: 4.5s;
+}
+
+@keyframes inkDrop {
+    0% {
+        opacity: 1;
+        transform: translateY(-10px) scale(0.5);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(5px) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.3);
+    }
+}
+
+/* Tıklama efekti */
+.book-wrapper.clicked .ink-overlay {
+    animation: none;
+    opacity: 1;
+}
+
+.book-wrapper.clicked .ink-writing {
+    animation: none;
+    width: 100%;
+    border-right: none;
+}
+
+/* Hikaye başlığı */
+.story-title {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.story-title h2 {
+    color: #d4af37;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
+}
+
+.story-title p {
+    color: #000000;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+/* Hikaye talimatları */
+.story-instructions {
+    text-align: center;
+    margin-top: 40px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #d4af37;
+}
+
+.story-instructions p {
+    color: #000000;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.story-instructions small {
+    color: #000000;
+    font-size: 0.9em;
+}
+
+/* Responsive tasarım */
+@media (max-width: 768px) {
+    .ink-overlay {
+        padding-left: 8%;
+        padding-top: 18%;
+    }
+    
+    .ink-text.title {
+        font-size: 2em;
+    }
+    
+    .ink-text {
+        font-size: 1.5em;
+    }
+    
+    .ink-text.subtitle {
+        font-size: 1.2em;
+    }
+
+}
+.page-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding-left: 10%;
+    gap: 20px;
+}
+
+.page-nav-btn {
+    background: #d4af37;
+    color: white;
+    margin-left: 482px;
+    font-size: 1.3em;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.page-nav-btn2 {
+    background: #d4af37;
+    color: white;
+    margin-left: 10px;
+    font-size: 1.3em;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+
+.page-nav-btn:hover {
+    background: #c1972c;
+    transform: scale(1.05);
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="story-title">
+    <p></p>
+</div>
+
+<div class="story-container">
+    <div class="book-wrapper" id="bookWrapper">
+
+        <img src="{{ url_for('static', filename='images/book.png') }}" 
+             class="book-image"
+             onclick="activateBook()">
+
+        
+        <!-- Mürekkep overlay -->
+        <button onclick="prevPage()" class="page-nav-btn">⟵ </button>
+        <button onclick="nextPage()" class="page-nav-btn2">⟶</button>
+
+
+        <div class="ink-overlay">
+
+
+    <!-- Sayfa 1 -->
+    <div class="story-page" id="page-1">
+        <div class="ink-text subtitle ink-writing line1">High in the Alborz Mountains, veiled in</div>
+        <div class="ink-text subtitle ink-writing line2">mist and legend, stood Alamūt — a fortress</div>
+        <div class="ink-text subtitle ink-writing line3">carved into stone and silence nestled deep</div>
+        <div class="ink-text subtitle ink-writing line4">within the isolated valley of the same name.</div>
+        <div class="ink-text subtitle ink-writing line5">It was here that Ḥasan-i Ṣabbāḥ, leader of the</div>
+        <div class="ink-text subtitle ink-writing line6">Nizārī Ismaʿilis, built not an empire, but a</div>
+        <div class="ink-text subtitle ink-writing line7">weaponized faith.</div>
+        <div class="ink-text subtitle ink-writing line8">Surrounded by hostile lands, the Ismaʿilis</div>
+        <div class="ink-text subtitle ink-writing line9">could not match their enemies in numbers. Instead,</div>
+        <div class="ink-text subtitle ink-writing line10">they mastered fear. The assassination was often</div>
+        <div class="ink-text subtitle ink-writing line11">planned to be carried out in a crowded location</div>
+        <div class="ink-text subtitle ink-writing line12">to maximize the political and religious consequences</div>
+        <div class="ink-text subtitle ink-writing line13">of the act. Their elite assassins fedāʾīs struck</div>
+        <div class="ink-text subtitle ink-writing line14">with precision, blades drawn  in crowded markets</div>
+        <div class="ink-text subtitle ink-writing line15">or royal courts.</div>
+        <div class="ink-text subtitle ink-writing line16">Disguised as beggars, monks, or merchants</div>
+        <div class="ink-text subtitle ink-writing line17">they never returned, and never missed.</div>
+    </div>
+    <div style="position: absolute; top: 118px; right: 292px; width: 220px;">
+  <img
+    src="{{ url_for('static', filename='images/1-Hasan-e_Sabah.jpg') }}"
+    alt="amucug"
+    style="width: 135%; height: 135%; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);" />
+</div>
+
+
+
+    <div class="story-page" id="page-2">
+        <div class="ink-text subtitle ink-writing line1">According to Marco Polo's account,</div>
+        <div class="ink-text subtitle ink-writing line2">Hassan-i Sabbah had created an enchanting</div>
+        <div class="ink-text subtitle ink-writing line3">paradise within his castle.</div>
+        <div class="ink-text subtitle ink-writing line4">This corner of paradise, filled with delicate</div>
+        <div class="ink-text subtitle ink-writing line5">gardens, babbling fountains, and beautiful maidens</div>
+        <div class="ink-text subtitle ink-writing line6">was used to deceive young warriors.</div>
+        <div class="ink-text subtitle ink-writing line7">Sabbah would drug selected youths, transport them</div>
+        <div class="ink-text subtitle ink-writing line8">to this false paradise, and upon awakening tell</div>
+        <div class="ink-text subtitle ink-writing line9">them: "You have tasted this paradise.</div>
+        <div class="ink-text subtitle ink-writing line10">If you die at my command, you will live</div>
+        <div class="ink-text subtitle ink-writing line11">here forever."</div>
+    </div>
+
+    <!-- Sayfa 3 -->
+    <div class="story-page" id="page-3" style="display: none;">
+        <div class="ink-text subtitle ink-writing line1">But the greatest enemy of Hassan-i Sabbah's</div>
+        <div class="ink-text subtitle ink-writing line2">shadowy kingdom was not found in castle walls</div>
+        <div class="ink-text subtitle ink-writing line3">or battlefield formations.</div>
+        <div class="ink-text subtitle ink-writing line4">It was an empire that had risen from the steppes</div>
+        <div class="ink-text subtitle ink-writing line5">of Central Asia to dominate the Islamic world the</div>
+        <div class="ink-text subtitle ink-writing line6">Great Seljuk Empire.</div>
+        <div class="ink-text subtitle ink-writing line7">The Seljuks had emerged in the 11th century as</div>
+        <div class="ink-text subtitle ink-writing line8">Turkic nomads who converted to Sunni Islam and</div>
+        <div class="ink-text subtitle ink-writing line9">swept across Persia like a divine wind.</div>
+        <div class="ink-text subtitle ink-writing line10">Under leaders like Tughril Beg and Alp Arslan</div>
+        <div class="ink-text subtitle ink-writing line11">they had conquered vast territories from the</div>
+        <div class="ink-text subtitle ink-writing line12">Byzantine frontier to the borders of India.</div>
+        
+    </div>
+    <!-- Sayfa 4 -->
+    <div class="story-page" id="page-4" style="display: none;">
+        <div class="ink-text subtitle ink-writing line1">Their success stemmed from a potent combination:</div>
+        <div class="ink-text subtitle ink-writing line2">the mobility and military prowess of Turkic</div>
+        <div class="ink-text subtitle ink-writing line3">horsemen, the administrative genius of Persian</div>
+        <div class="ink-text subtitle ink-writing line4">bureaucrats like Nizam al-Mulk, and most</div>
+        <div class="ink-text subtitle ink-writing line5">crucially their role as champions of Sunni</div>
+        <div class="ink-text subtitle ink-writing line6">orthodoxy against Shia "heretics."</div>
+
+    </div>
+    <div class="story-page" id="page-5" style="display: none;">
+        <div class="ink-text subtitle ink-writing line7">To the Seljuks, the Nizari Ismailis represented</div>
+        <div class="ink-text subtitle ink-writing line8">everything that threatened the Islamic order they</div>
+        <div class="ink-text subtitle ink-writing line9">sought to establish.</div>
+        <div class="ink-text subtitle ink-writing line10">The Ismailis' rejection of Sunni caliphal authority</div>
+        <div class="ink-text subtitle ink-writing line11">their belief in hidden imam, and their revolutionary</div>
+        <div class="ink-text subtitle ink-writing line12">theology made them not just political enemies</div>
+        <div class="ink-text subtitle ink-writing line13">but religious apostates who had to be crushed.</div>
+        <div class="ink-text subtitle ink-writing line14">The Seljuk sultans saw themselves as the sword of</div>
+        <div class="ink-text subtitle ink-writing line15">orthodox Islam, and Hassan-i Sabbah's mountain</div>
+        <div class="ink-text subtitle ink-writing line16">fortress stood as a blasphemous challenge to their</div>
+        <div class="ink-text subtitle ink-writing line17">divine mandate to rule the faithful.</div>
+    </div>
+    <!-- Sayfa 5 -->
+    <div class="story-page" id="page-6" style="display: none;">
+        <div class="ink-text subtitle ink-writing line1">For thirty years, one man had been the architect</div>
+        <div class="ink-text subtitle ink-writing line2">of this golden age.</div>
+        <div class="ink-text subtitle ink-writing line3">Nizam al-Mulk — Abu Ali al-Hasan ibn Ali</div>
+        <div class="ink-text subtitle ink-writing line4">was not merely a vizier, but the soul of an</div>
+        <div class="ink-text subtitle ink-writing line5">empire. </div>
+        <div class="ink-text subtitle ink-writing line6">his Persian statesman, who served under Sultan</div>
+        <div class="ink-text subtitle ink-writing line7">Alp Arslan and his son Malik-Shah, had</div>
+        <div class="ink-text subtitle ink-writing line8">transformed a nomadic confederation into the</div>
+        <div class="ink-text subtitle ink-writing line9">greatest power of the medieval world. Through</div>
+        <div class="ink-text subtitle ink-writing line10">the Nizamiyyah madrasas he established across</div>
+        <div class="ink-text subtitle ink-writing line11">the empire, knowledge flourished from Baghdad</div>
+        <div class="ink-text subtitle ink-writing line12">to Samarkand.</div>
+        <div class="ink-text subtitle ink-writing line13">His masterwork, the "Siyasatnama"</div>
+        <div class="ink-text subtitle ink-writing line14">(Book of Government) became the blueprint</div>
+        <div class="ink-text subtitle ink-writing line15">for Islamic statecraft.</div>
+        
+    </div>
+    <!-- Sayfa 6 -->
+    <div class="story-page" id="page-7" style="display: none;">
+        <div class="ink-text subtitle ink-writing line1">Under his guidance, the Seljuk administrative</div>
+        <div class="ink-text subtitle ink-writing line2">system ran with clockwork precision, collecting</div>
+        <div class="ink-text subtitle ink-writing line3">taxes maintaining roads, and dispensing justice</div>
+        <div class="ink-text subtitle ink-writing line4">with unmatched efficiency.</div>
+    </div>
+    <div class="story-page" id="page-8" style="display: none;">
+        <div class="ink-text subtitle ink-writing line1">Yet this 74-year-old master of statecraft had</div>
+        <div class="ink-text subtitle ink-writing line2">become Hassan-i Sabbah's ultimate target.</div>
+        <div class="ink-text subtitle ink-writing line3">The two men had once been fellow students in</div>
+        <div class="ink-text subtitle ink-writing line4">the halls of learning in Nishapur — now they</div>
+        <div class="ink-text subtitle ink-writing line5">stood as the embodiments of irreconcilable </div>
+        <div class="ink-text subtitle ink-writing line6">worldviews.</div>
+        <div class="ink-text subtitle ink-writing line7">Nizam al-Mulk represented order, tradition</div>
+        <div class="ink-text subtitle ink-writing line8"> and Sunni orthodoxy. </div>
+        <div class="ink-text subtitle ink-writing line9">Hassan-i Sabbah embodied revolution, heresy</div>
+        <div class="ink-text subtitle ink-writing line10">and the overthrow of the established order.</div>
+    </div>
+     <div class="story-page" id="page-9" style="display: none;">
+    <div class="ink-text subtitle ink-writing line1">On the night of October 14, 1092, fate finally</div>
+    <div class="ink-text subtitle ink-writing line2">caught up with the great vizier. Nizam al-Mulk</div>
+    <div class="ink-text subtitle ink-writing line3">Nizam al-Mulk was traveling from Isfahan to</div>
+    <div class="ink-text subtitle ink-writing line4">Baghdad, his usual route through the heart </div>
+    <div class="ink-text subtitle ink-writing line5">of his empire. Near the town of Sahna, his</div>
+    <div class="ink-text subtitle ink-writing line6">caravan made camp for the night.</div>
+    <div class="ink-text subtitle ink-writing line7">The elderly minister, weakened by months of</div>
+    <div class="ink-text subtitle ink-writing line8">illness, rested in his traveling litter.</div>
+    <div class="ink-text subtitle ink-writing line9">As darkness enveloped the camp, a figure</div>
+    <div class="ink-text subtitle ink-writing line10">emerged from the shadows.</div>
+    <div class="ink-text subtitle ink-writing line11">Cloaked in the simple robes of a wandering</div>
+    <div class="ink-text subtitle ink-writing line12">dervish,the stranger approached the</div>
+    <div class="ink-text subtitle ink-writing line13">flickering campfire.</div>
+    <div class="ink-text subtitle ink-writing line14">To the guards, he appeared as countless</div>
+    <div class="ink-text subtitle ink-writing line15">others had before,a sufi mystic seeking</div>
+    <div class="ink-text subtitle ink-writing line16">alms from the generous vizier.</div>
+    
+    
+</div>
+<div class="story-page" id="page-10" style="display: none;">
+    <div class="ink-text subtitle ink-writing line1">"I have come to ask for charity, Your</div>
+    <div class="ink-text subtitle ink-writing line2">Excellency," the dervish said, his voice</div>
+    <div class="ink-text subtitle ink-writing line3">humble and reverent.</div>
+    <div class="ink-text subtitle ink-writing line4">Nizam al-Mulk, despite his fatigue, raised</div>
+    <div class="ink-text subtitle ink-writing line5">himself to greet the holy man. It was a</div>
+    <div class="ink-text subtitle ink-writing line6">It was a gesture of piety he had performed</div>
+    <div class="ink-text subtitle ink-writing line7">thousands of times before. But as he leaned</div>
+    <div class="ink-text subtitle ink-writing line8">forward,the dervish's hand moved with lethal</div>
+    <div class="ink-text subtitle ink-writing line9">precision.</div>
+    <div class="ink-text subtitle ink-writing line10">A dagger, hidden beneath the rough cloth</div>
+    <div class="ink-text subtitle ink-writing line11">found its mark in the vizier's heart.</div>
+    <div class="ink-text subtitle ink-writing line12">"Hassan-i Sabbah sends his regards!"</div>
+    <div class="ink-text subtitle ink-writing line13">the assassin cried, his mission complete.</div>
+    <div class="ink-text subtitle ink-writing line14">the architect of an empire died instantly.</div>
+    <div class="ink-text subtitle ink-writing line15">The fidai made no attempt to flee,martyrdom</div>
+    <div class="ink-text subtitle ink-writing line16">was part of his reward. The guards cut him</div>
+    <div class="ink-text subtitle ink-writing line17">down immediately but the damage was irreversible.</div>
+    </div>
+
+  <div class="story-page" id="page-11" style="display: none;">
+    <div class="ink-text subtitle ink-writing line1">Within thirty-five days of his vizier's death,</div>
+    <div class="ink-text subtitle ink-writing line2">Sultan Malik-Shah himself was found dead in</div>
+    <div class="ink-text subtitle ink-writing line3">his tent — whether from grief, poison, or</div>
+    <div class="ink-text subtitle ink-writing line4">divine judgment, none could say.</div>
+    <div class="ink-text subtitle ink-writing line5">With both pillars of the empire removed, the</div>
+    <div class="ink-text subtitle ink-writing line6">great Seljuk state began to crumble.</div>
+    
+    <div class="ink-text subtitle ink-writing line7">The succession crisis that followed was</div>
+    <div class="ink-text subtitle ink-writing line8">catastrophic.</div>
+    <div class="ink-text subtitle ink-writing line9">Malik-Shah's sons fought brutal wars against</div>
+    <div class="ink-text subtitle ink-writing line10">each other, each claiming the right to rule.</div>
+    <div class="ink-text subtitle ink-writing line11">Provincial governors declared independence.</div>
+    <div class="ink-text subtitle ink-writing line12">The administrative system that Nizam al-Mulk</div>
+    <div class="ink-text subtitle ink-writing line13">had spent decades perfecting collapsed</div>
+    <div class="ink-text subtitle ink-writing line14">overnight.</div>
+
+    
+</div>
+<div class="story-page" id="page-12" style="display: none;">
+    <div class="ink-text subtitle ink-writing line1">What had once been a unified empire</div>
+    <div class="ink-text subtitle ink-writing line2">stretching from the Mediterranean to Central</div>
+    <div class="ink-text subtitle ink-writing line3">Asia fragmented into dozens of petty</div>
+    <div class="ink-text subtitle ink-writing line4">sultanates.</div>
+    <div class="ink-text subtitle ink-writing line5">The Crusaders, arriving just a few years</div>
+    <div class="ink-text subtitle ink-writing line6">later, found not a mighty empire but a</div>
+    <div class="ink-text subtitle ink-writing line7">collection of squabbling kingdoms — a crucial</div>
+    <div class="ink-text subtitle ink-writing line8">factor in their early successes.</div>
+
+    <div class="ink-text subtitle ink-writing line9">Hassan-i Sabbah had achieved something no</div>
+    <div class="ink-text subtitle ink-writing line10">army could:</div>
+    <div class="ink-text subtitle ink-writing line11">the destruction of the greatest Islamic empire</div>
+    <div class="ink-text subtitle ink-writing line12">of its age with a single blade.</div>
+    </div>
+
+    <div class="story-page" id="page-13" style="display: none;">
+    <div class="ink-text subtitle ink-writing line1">The Hashashins would terrorize the Middle</div>
+    <div class="ink-text subtitle ink-writing line2">East for another 166 years, their very name</div>
+    <div class="ink-text subtitle ink-writing line3">becoming synonymous with political murder.</div>
+    <div class="ink-text subtitle ink-writing line4">Kings and sultans learned to fear the</div>
+    <div class="ink-text subtitle ink-writing line5">approach of strangers, the rustle of robes,</div>
+    <div class="ink-text subtitle ink-writing line6">the glint of hidden steel.</div>
+
+    <div class="ink-text subtitle ink-writing line7">But perhaps the greatest legacy of that</div>
+    <div class="ink-text subtitle ink-writing line8">October night was not the rise of the</div>
+    <div class="ink-text subtitle ink-writing line9">Assassins, but the lesson it taught:</div>
+    <div class="ink-text subtitle ink-writing line10">that in the game of empires, sometimes the</div>
+    <div class="ink-text subtitle ink-writing line11">mightiest fortress is not built of stone,</div>
+    <div class="ink-text subtitle ink-writing line12">but of fear — and sometimes the smallest</div>
+    <div class="ink-text subtitle ink-writing line13">dagger can topple the greatest throne.</div>
+
+</div>
+<div class="story-page" id="page-14" style="display: none;">
+
+    <div class="ink-text subtitle ink-writing line1">The murder of Nizam al-Mulk proved that in</div>
+    <div class="ink-text subtitle ink-writing line2">an age of faith and steel, the most</div>
+    <div class="ink-text subtitle ink-writing line3">dangerous weapon was not the sword, but the</div>
+    <div class="ink-text subtitle ink-writing line4">absolute conviction that paradise awaited</div>
+    <div class="ink-text subtitle ink-writing line5">those willing to die for their cause.</div>
+
+    <div class="ink-text subtitle ink-writing line6">From his mountain fortress, Hassan-i Sabbah</div>
+    <div class="ink-text subtitle ink-writing line7">watched his enemies' empire burn.</div>
+    <div class="ink-text subtitle ink-writing line8">To rulers and crusaders, he became known as</div>
+    <div class="ink-text subtitle ink-writing line9">"The Old Man of the Mountain."</div>
+    <div class="ink-text subtitle ink-writing line10">To his enemies, he was a ghost with a knife.</div>
+    <div class="ink-text subtitle ink-writing line11">Alamūt was more than a fortress — it was a</div>
+    <div class="ink-text subtitle ink-writing line12">message: 𝘯𝘰 𝘰𝘯𝘦 𝘸𝘢𝘴 𝘶𝘯𝘵𝘰𝘶𝘤𝘩𝘢𝘣𝘭𝘦.</div>
+
+</div>
+
+
+
+
+
+ 
+    </div>
+    <div class="page-buttons">
+    
+</div>
+
+
+</div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let animationTriggered = false;
+    
+    function activateBook() {
+        const bookWrapper = document.getElementById('bookWrapper');
+        
+        if (!animationTriggered) {
+          
+            bookWrapper.classList.add('clicked');
+            animationTriggered = true;
+            
+          
+            setTimeout(() => {
+              
+                console.log('Story starting...');
+              
+            }, 3000);
+        } else {
+
+            console.log('...');
+    
+        }
+    }
+    
+    function showPage(pageId) {
+      
+        document.querySelectorAll('.story-page').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+      
+        document.querySelectorAll('.page-nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+     
+        document.getElementById('page-' + pageId).classList.add('active');
+        document.getElementById('nav-' + pageId).classList.add('active');
+    }
+    
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('page-1')) {
+            showPage(1);
+        }
+    });
+</script>
+<button onclick="clearAllStoryDivs()" style="background: #d4af37; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; display: flex; justify-content: center; align-items: center;">
+    Hikaye Divlerini Temizle
+</button>
+
+<button onclick="clearAllStoryDivs()" style="background: #d4af37; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; display: flex; justify-content: center; align-items: center;">
+    Hikaye Divlerini Temizle
+</button>
+
+<script>
+
+function clearAllStoryDivs() {
+
+    const storyElements = document.querySelectorAll('.ink-text');
+    
+    storyElements.forEach(element => {
+        element.remove();
+    });
+    
+
+}
+</script>
+
+<button onclick="goToNextPage()">Next</button>
+
+<script>
+let currentPage = 1;
+const totalPages =14; 
+
+function showPage(pageNum) {
+    for (let i = 1; i <= totalPages; i++) {
+        const page = document.getElementById('page-' + i);
+        if (page) {
+            page.style.display = (i === pageNum) ? 'block' : 'none';
+        }
+    }
+}
+
+function nextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+    }
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    for (let i = 1; i <= totalPages; i++) {
+        const page = document.getElementById('page-' + i);
+        if (page) {
+            page.style.display = (i === currentPage) ? 'block' : 'none';
+        }
+    }
+    
+});
+
+let currentAudio = null; 
+
+function playPageAudio(pageNumber) {
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    
+  
+    const audioSrc = `/static/audio/page${pageNumber}.m4a`;
+    currentAudio = new Audio(audioSrc);
+    
+   
+    currentAudio.addEventListener('error', function(e) {
+        console.log(`Ses dosyası yüklenemedi: page${pageNumber}.m4a`);
+    });
+    
+    
+    currentAudio.play().catch(function(error) {
+        console.log('Ses oynatılamadı:', error);
+    });
+}
+
+
+function showPage(pageNum) {
+    for (let i = 1; i <= totalPages; i++) {
+        const page = document.getElementById('page-' + i);
+        if (page) {
+            page.style.display = (i === pageNum) ? 'block' : 'none';
+        }
+    }
+    
+   
+    playPageAudio(pageNum);
+}
+
+function nextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+    }
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    showPage(currentPage);
+});
+
+
+function pauseCurrentAudio() {
+    if (currentAudio) {
+        currentAudio.pause();
+    }
+}
+
+function resumeCurrentAudio() {
+    if (currentAudio && currentAudio.paused) {
+        currentAudio.play().catch(function(error) {
+            console.log('Ses devam ettirilemedi:', error);
+        });
+    }
+}
+
+
+document.addEventListener('keydown', function(e) {
+    switch(e.code) {
+        case 'Space':
+            e.preventDefault();
+            if (currentAudio) {
+                if (currentAudio.paused) {
+                    resumeCurrentAudio();
+                } else {
+                    pauseCurrentAudio();
+                }
+            }
+            break;
+        case 'ArrowLeft':
+            e.preventDefault();
+            prevPage();
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            nextPage();
+            break;
+    }
+});
+function addPageImage(pageNumber) {
+  
+    const existingImage = document.querySelector('.dynamic-page-image');
+    if (existingImage) {
+        existingImage.remove();
+    }
+    
+  
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'dynamic-page-image';
+    imageContainer.style.cssText = 'position: absolute; top: 118px; right: 292px; width: 220px;';
+    
+
+    const img = document.createElement('img');
+    img.src = `/static/images/page${pageNumber}.jpg`;
+    img.alt = `Page ${pageNumber} Image`;
+    img.style.cssText = 'width: 135%; height: 135%; border-radius: 15px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);';
+    
+   
+    img.addEventListener('error', function() {
+        console.log(`Resim dosyası bulunamadı: page${pageNumber}.jpg`);
+   
+        imageContainer.remove();
+    });
+    
+
+    imageContainer.appendChild(img);
+    
+
+    const inkOverlay = document.querySelector('.ink-overlay');
+    if (inkOverlay) {
+        inkOverlay.appendChild(imageContainer);
+    }
+}
+
+
+function showPage(pageNum) {
+    for (let i = 1; i <= totalPages; i++) {
+        const page = document.getElementById('page-' + i);
+        if (page) {
+            page.style.display = (i === pageNum) ? 'block' : 'none';
+        }
+    }
+
+    addPageImage(pageNum);
+ 
+    if (typeof playPageAudio === 'function') {
+        playPageAudio(pageNum);
+    }
+}
+
+</script>
+
+
+{% endblock %}

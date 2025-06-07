@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="book-container">
+    <div class="book">
+        <div class="page-left">
+            <div>
+                <h2 style="color: #8b4513; margin-bottom: 20px; font-size: 2em;">
+                    <i class="fas fa-scroll"></i> Hackstory 2025
+                </h2>
+                <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 20px;">
+                    Welcome to the dramatic story of the assassination that led to the collapse of the Great Seljuk Empire — the most powerful Islamic state of the 11th century.
+                </p>
+                <p style="font-size: 1em; line-height: 1.6; margin-bottom: 30px;">
+                    On the night of October 14, 1092, a single dagger strike changed 
+                    the course of history. The assassination of Nizam al-Mulk marked 
+                    not just the end of a vizier, but the close of an era.
+                </p>
+                <a href="/story" class="btn">
+                    <i class="fas fa-play"></i> Start the story
+                </a>
+            </div>
+            <div style="margin-top: 30px;">
+                <h4 style="color: #8b4513; margin-bottom: 15px;">
+                    <i class="fas fa-lightbulb"></i> About this project
+                </h4>
+                <p style="font-size: 0.9em; line-height: 1.5;"> 
+                    My project for Hackstory 2025 explores one of the most impactful suicides in history.
+                </p>
+            </div>
+        </div>
+        
+        <div class="page-right">
+            <div style="text-align: center;">
+                <div style="width: 200px; height: 200px; background: linear-gradient(45deg, #d4af37, #b8941f); 
+                           border-radius: 50%; margin: 0 auto 30px; display: flex; align-items: center; 
+                           justify-content: center; font-size: 4em; color: #2c1810;">
+                    <i class="fas fa-mountain"></i>
+                </div>
+                <h3 style="color: #8b4513; margin-bottom: 20px;">Alamut Kalesi</h3>
+                <p style="font-size: 1em; line-height: 1.6; margin-bottom: 20px;">
+                    At the summit of the Elburz Mountains, shrouded in legends, 
+                    stood Alamut Castle — the stronghold of the Hashshashin order founded by Hasan-i Sabbah.
+                </p>
+                <p style="font-size: 0.9em; line-height: 1.5; font-style: italic; color: #666;">
+                    "No one is untouchable..."
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; margin: 40px 0;">
+    <h3 style="color: #d4af37; margin-bottom: 20px;">
+        <i class="fas fa-timeline"></i> Historical Importance
+    </h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">
+            <i class="fas fa-crown" style="font-size: 2em; color: #d4af37; margin-bottom: 15px;"></i>
+            <h4 style="color: #d4af37; margin-bottom: 10px;">Fall of an empire</h4>
+            <p>The collapse of the Seljuk Empire</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">
+            <i class="fas fa-cross" style="font-size: 2em; color: #d4af37; margin-bottom: 15px;"></i>
+            <h4 style="color: #d4af37; margin-bottom: 10px;">The Crusades</h4>
+            <p>The weakness that made the Crusaders' success possible</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">
+            <i class="fas fa-knife" style="font-size: 2em; color: #d4af37; margin-bottom: 15px;"></i>
+            <h4 style="color: #d4af37; margin-bottom: 10px;">The Art of Assassination</h4>
+            <p>The historical impact of political assassination</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

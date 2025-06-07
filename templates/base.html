@@ -1,0 +1,168 @@
+
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}The Assassination of Nizam al-Mulk{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c1810 0%, #8b4513 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #d4af37;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #ddd;
+            font-style: italic;
+        }
+
+        nav {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background: #d4af37;
+            color: #2c1810;
+        }
+
+        .book-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .book {
+            width: 800px;
+            height: 600px;
+            background: #8b4513;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .page-left, .page-right {
+            width: 50%;
+            padding: 40px;
+            background: #f4f1e8;
+            color: #2c1810;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .page-left {
+            border-right: 1px solid #d4af37;
+        }
+
+        .btn {
+            background: #d4af37;
+            color: #2c1810;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #d4af37;
+            margin-top: 80px;
+            color: #aaa;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-mountain"></i> The Assassination of Nizam al-Mulk</h1>
+            <p>How a Single Dagger Toppled an Empire</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i> Main</a></li>
+                <li><a href="/story"><i class="fas fa-book-open"></i> Story</a></li>
+                <li><a href="/sources"><i class="fas fa-scroll"></i> Resources</a></li>
+                <li><a href="/about"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Hackstory Project - The Assassination of Nizam al-Mulk</p>
+            <p><i class="fas fa-university"></i> Historical Research & Historical Event Narration</p>
+        </footer>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
